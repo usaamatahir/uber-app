@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
   StyleSheet,
@@ -8,6 +9,10 @@ import {
   Image,
 } from "react-native";
 import { Icon } from "react-native-elements";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../RootStackPrams";
+
+type authScreenProp = StackNavigationProp<RootStackParamList, "Home">;
 
 const Record = [
   {
@@ -23,14 +28,23 @@ const Record = [
     screen: "EatsScreen",
   },
 ];
+
 const NavOptions = () => {
+  const navigation = useNavigation<authScreenProp>();
   return (
     <FlatList
       data={Record}
       horizontal
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity
+          style={styles.container}
+          onPress={() =>
+            navigation.navigate(
+              item.screen === "MapScreen" ? "MapScreen" : "EatsScreen"
+            )
+          }
+        >
           <View>
             <Image
               style={{ width: 120, height: 120, resizeMode: "contain" }}
@@ -59,7 +73,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     paddingTop: 4,
     margin: 4,
-    width: 125,
+    width: 120,
     backgroundColor: "#dddddd",
   },
   text: {
