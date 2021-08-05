@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import reducer from "./slices/navSlice";
+import navreducer from "./slices/navSlice";
 
 export const store = configureStore({
   reducer: {
-    nav: reducer,
+    nav: navreducer,
   },
 });
+
+export type RootStateType = ReturnType<typeof navreducer>;

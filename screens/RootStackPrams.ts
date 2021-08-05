@@ -3,3 +3,8 @@ export type RootStackParamList = {
   MapScreen: undefined;
   EatsScreen: undefined;
 };
+
+export type MapsStackParamList = {
+  NavigateCard: undefined;
+  RideOptionsCard: undefined;
+};

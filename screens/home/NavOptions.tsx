@@ -11,6 +11,8 @@ import {
 import { Icon } from "react-native-elements";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../RootStackPrams";
+import { useSelector } from "react-redux";
+import { selectOrigin } from "../../redux/slices/navSlice";
 
 type authScreenProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -31,6 +33,7 @@ const Record = [
 
 const NavOptions = () => {
   const navigation = useNavigation<authScreenProp>();
+  const origin = useSelector(selectOrigin);
   return (
     <FlatList
       data={Record}
@@ -45,7 +48,7 @@ const NavOptions = () => {
             )
           }
         >
-          <View>
+          <View style={{ opacity: !origin.description ? 0.2 : 1 }}>
             <Image
               style={{ width: 120, height: 120, resizeMode: "contain" }}
               source={{ uri: item.image }}
@@ -78,13 +81,15 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: 2,
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "700",
   },
   icon: {
-    padding: 2,
     backgroundColor: "#000",
     width: 30,
+    height: 30,
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 4,
     borderRadius: 15,
   },
