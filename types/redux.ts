@@ -22,3 +22,10 @@ export type initialStateType = {
 export type stateType = {
   nav: initialStateType;
 };
+
+export type RideDataType = {
+  id: string;
+  name: string;
+  multiplier: number;
+  image: string;
+};
