@@ -12,10 +12,20 @@ export type destinationType = {
   };
   description: string;
 };
+export type timeTravelType = {
+  distance: {
+    text: string;
+    value: number;
+  };
+  duration: {
+    text: string;
+    value: number;
+  };
+};
 
 export type initialStateType = {
   origin: originType;
-  travelTimeInformation: string | null;
+  travelTimeInformation: timeTravelType;
   destination: destinationType;
 };
 

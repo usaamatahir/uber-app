@@ -12,8 +12,12 @@ import {
   Image,
 } from "react-native";
 import { Icon } from "react-native-elements";
+import { useSelector } from "react-redux";
+import { selectTravelTimeInformation } from "../../redux/slices/navSlice";
 import { RideDataType } from "../../types/redux";
 import { MapsStackParamList } from "../RootStackPrams";
+import "intl";
+import "intl/locale-data/jsonp/en-PK";
 
 type authScreenProp = StackNavigationProp<
   MapsStackParamList,
@@ -42,8 +46,11 @@ const data = [
 ];
 
 const RideOptionsCard = () => {
+  const SURGE_CHARGE_RATE = 1.5;
   const navigation = useNavigation<authScreenProp>();
   const [selected, setSelected] = useState<RideDataType>();
+  const timeToTravel = useSelector(selectTravelTimeInformation);
+  console.log("TIme to travel ==> ", timeToTravel);
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View>
@@ -53,7 +60,9 @@ const RideOptionsCard = () => {
         >
           <Icon name="chevron-left" type="fontawesome" size={22} />
         </TouchableOpacity>
-        <Text style={styles.title}>Select a Ride</Text>
+        <Text style={styles.title}>
+          Select a Ride - {timeToTravel.distance.text}
+        </Text>
       </View>
       <FlatList
         data={data}
@@ -74,13 +83,23 @@ const RideOptionsCard = () => {
               <Text style={{ fontSize: 18, fontWeight: "700" }}>
                 {item.name}
               </Text>
-              <Text>Travel Time ...</Text>
+              <Text>{timeToTravel.distance.text} Time Travel</Text>
             </View>
-            <Text style={{ fontSize: 16, fontWeight: "700" }}>$99</Text>
+            <Text style={{ fontSize: 16, fontWeight: "700" }}>
+              {new Intl.NumberFormat("en-GB", {
+                style: "currency",
+                currency: "GBP",
+              }).format(
+                (timeToTravel.duration.value *
+                  SURGE_CHARGE_RATE *
+                  item.multiplier) /
+                  100
+              )}
+            </Text>
           </TouchableOpacity>
         )}
       />
-      <View>
+      <View style={styles.bottomContainer}>
         <TouchableOpacity
           disabled={!selected}
           style={[
@@ -120,6 +139,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 20,
+  },
+  bottomContainer: {
+    marginTop: "auto",
+    borderTopColor: "#dddddd",
   },
   bottomBtn: { backgroundColor: "black", paddingVertical: 6, margin: 6 },
   btnText: { textAlign: "center", color: "white", fontSize: 18 },

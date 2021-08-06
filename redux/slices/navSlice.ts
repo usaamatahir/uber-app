@@ -4,6 +4,7 @@ import {
   initialStateType,
   originType,
   stateType,
+  timeTravelType,
 } from "../../types/redux";
 
 const initialOrigin: originType = {
@@ -14,17 +15,27 @@ const initialOrigin: originType = {
   description: "",
 };
 
-const initialDestination: originType = {
+const initialDestination: destinationType = {
   location: {
     lat: 0,
     lng: 0,
   },
   description: "",
 };
+const initialTimeTravel: timeTravelType = {
+  distance: {
+    text: "",
+    value: 0,
+  },
+  duration: {
+    text: "",
+    value: 0,
+  },
+};
 
 const initialState: initialStateType = {
   origin: initialOrigin,
-  travelTimeInformation: null,
+  travelTimeInformation: initialTimeTravel,
   destination: initialDestination,
 };
 
@@ -51,8 +62,7 @@ export const selectOrigin = (state: stateType) => state.nav.origin;
 
 export const selectDestination = (state: stateType) => state.nav.destination;
 
-export const selectTravelTimeInformation = (state: stateType) => {
+export const selectTravelTimeInformation = (state: stateType) =>
   state.nav.travelTimeInformation;
-};
 
 export default navSlice.reducer;
